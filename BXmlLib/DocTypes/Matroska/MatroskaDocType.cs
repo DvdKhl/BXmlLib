@@ -426,6 +426,13 @@ namespace BXmlLib.DocTypes.Matroska {
             yield return new MatroskaDocMetaElement("1234     ", TagBinary, null, null, new int[] { SimpleTag.Id }, "The values of the Tag if it is binary. Note that this cannot be used in the same SimpleTag as TagString.");
         }
 
+        public static void RetrieveMatroskaBlock(IBXmlReader reader, out MatroskaBlock block) { block = new MatroskaBlock(reader.RetrieveRawValue()); }
+
+        protected override object DecodeCustomData(BXmlDocElement docElement, ReadOnlySpan<byte> encodedData) => encodedData.ToArray();
+
         public MatroskaDocType() : base(EnumerateMetaData().Select(x => x.DocElement)) { }
+
+
+
     }
 }

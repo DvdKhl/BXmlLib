@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 namespace BXmlLib {
-    public class BXmlReader {
+    public class BXmlReader : IBXmlReader {
         public class PositionData {
             internal long NextElementPos, LastElementPos;
             public BXmlDocElement DocElement { get; internal set; }
@@ -30,15 +30,14 @@ namespace BXmlLib {
         public BXmlElementHeader Header => header; private BXmlElementHeader header;
         public BXmlDocElement DocElement => positions[currentPositionIndex].DocElement;
 
-
-        public object RetrieveValue() {
+        public object RetrieveValue() => DocType.DecodeData(positions[currentPositionIndex].DocElement, RetrieveRawValue());
+        public ReadOnlySpan<byte> RetrieveRawValue() {
             if(header.DataLength < 0) throw new InvalidOperationException("Cannot retrieve value: Length unknown");
             if(header.DataLength == 0) return Array.Empty<byte>();
 
             if(BaseStream.Position != header.DataOffset) throw new InvalidOperationException("Cannot retrieve value: Current position doesn't match element data position");
 
-            var data = BaseStream.ReadData(checked((int)header.DataLength));
-            return DocType.DecodeData(positions[currentPositionIndex].DocElement, data);
+            return BaseStream.ReadData(checked((int)header.DataLength));
         }
 
         public bool Strict { get; set; }
@@ -57,6 +56,8 @@ namespace BXmlLib {
 
 
         public bool Next() {
+            BaseStream.CommitPosition();
+
             var pos = positions[currentPositionIndex];
             header.Mutate();
             pos.DocElement = null;
@@ -73,6 +74,7 @@ namespace BXmlLib {
             var isHeaderInvalid =
                 (header.DataLength < 0 && (~header.DataLength & BXmlElementHeader.Mask & BXmlElementHeader.Error) != 0) ||
                 (pos.LastElementPos != ~BXmlElementHeader.UnknownLength && header.DataOffset + header.DataLength > pos.LastElementPos);
+
 
             if(isHeaderInvalid) {
                 if(Strict) {
@@ -113,6 +115,7 @@ namespace BXmlLib {
             header.Mutate();
             return enterDisposable;
         }
+
 
         protected sealed class EnterDisposable : IDisposable {
             private readonly BXmlReader reader;

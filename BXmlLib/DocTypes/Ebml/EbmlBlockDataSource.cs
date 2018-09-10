@@ -14,7 +14,7 @@ namespace BXmlLib.DocTypes.Ebml {
 
     public abstract class EbmlBlockDataSource : IBXmlDataSource {
         protected abstract ReadOnlySpan<byte> Data(int minLength);
-        protected abstract bool Advance(int length);
+        protected abstract void Advance(int length);
         public abstract long Position { get; set; }
 
         public bool IsEndOfStream { get; protected set; }
@@ -81,7 +81,7 @@ namespace BXmlLib.DocTypes.Ebml {
                 return encodedIdent;
             }
 
-            IsEndOfStream = !Advance(identLength + dataVIntLength);
+            Advance(identLength + dataVIntLength);
 
             var dataPos = headerPos + identLength + dataVIntLength;
             header.Mutate(headerPos, dataPos, dataLength);
@@ -92,7 +92,7 @@ namespace BXmlLib.DocTypes.Ebml {
             var data = Data(length);
 
             if(length <= data.Length) {
-                IsEndOfStream = !Advance(length);
+                Advance(length);
                 return data.Slice(0, length);
             }
 
@@ -102,15 +102,20 @@ namespace BXmlLib.DocTypes.Ebml {
             Span<byte> returnData = new byte[length];
             while(!IsEndOfStream && toRead != 0) {
                 data.CopyTo(returnData.Slice(length - toRead));
-                IsEndOfStream = !Advance(toAdvance);
+                CommitPosition();
+
+                Advance(toAdvance);
                 toRead -= toAdvance;
 
                 data = Data(toRead);
                 toAdvance = Math.Min(toRead, data.Length);
             }
+            Advance(toAdvance);
 
-            IsEndOfStream = !Advance(toAdvance);
+            CommitPosition();
             return returnData;
         }
+
+        public abstract void CommitPosition();
     }
 }

@@ -37,5 +37,6 @@ namespace BXmlLib.DataSource {
 
         ReadOnlySpan<byte> ReadIdentifier(ref BXmlElementHeader header);
         ReadOnlySpan<byte> ReadData(int bytesToRead);
+        void CommitPosition();
     }
 }
