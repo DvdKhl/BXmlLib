@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace BXmlLib.DocType {
-	public class BXmlDocElement {
+	public abstract class BXmlDocElement {
 		public string Name { get; private set; }
 		public bool IsContainer { get; private set; }
 
@@ -11,5 +11,8 @@ namespace BXmlLib.DocType {
 			Name = name;
 			IsContainer = isContainer;
 		}
-	}
+
+        public abstract string IdentifierString { get; }
+        public abstract string TypeString { get; }
+    }
 }

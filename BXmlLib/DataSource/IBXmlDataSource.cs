@@ -5,7 +5,7 @@ using System.Text;
 namespace BXmlLib.DataSource {
 
 
-    public struct BXmlElementHeader {
+	public struct BXmlElementHeader {
         public const int UnknownLength = 1;
 
         public const int Error = 512;

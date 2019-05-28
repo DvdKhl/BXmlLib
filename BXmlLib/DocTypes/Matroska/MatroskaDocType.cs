@@ -316,8 +316,8 @@ namespace BXmlLib.DocTypes.Matroska {
             yield return new MatroskaDocMetaElement("1234W    ", PixelCropTop, 0UL, null, new int[] { Video.Id }, "The number of video pixels to remove at the top of the image.");
             yield return new MatroskaDocMetaElement("1234W    ", PixelCropLeft, 0UL, null, new int[] { Video.Id }, "The number of video pixels to remove on the left of the image.");
             yield return new MatroskaDocMetaElement("1234W    ", PixelCropRight, 0UL, null, new int[] { Video.Id }, "The number of video pixels to remove on the right of the image.");
-            yield return new MatroskaDocMetaElement("1234W    ", DisplayWidth, "&PixelWidth", notNull, new int[] { Video.Id }, "Width of the video frames to display. The default value is only valid when DisplayUnit is 0.");
-            yield return new MatroskaDocMetaElement("1234W    ", DisplayHeight, "&PixelHeight", notNull, new int[] { Video.Id }, "Height of the video frames to display. The default value is only valid when DisplayUnit is 0.");
+            yield return new MatroskaDocMetaElement("1234W    ", DisplayWidth, PixelWidth, notNull, new int[] { Video.Id }, "Width of the video frames to display. The default value is only valid when DisplayUnit is 0.");
+            yield return new MatroskaDocMetaElement("1234W    ", DisplayHeight, PixelHeight, notNull, new int[] { Video.Id }, "Height of the video frames to display. The default value is only valid when DisplayUnit is 0.");
             yield return new MatroskaDocMetaElement("1234W    ", DisplayUnit, 0UL, null, new int[] { Video.Id }, "How DisplayWidth & DisplayHeight should be interpreted (0: pixels, 1: centimeters, 2: inches, 3: Display Aspect Ratio).");
             yield return new MatroskaDocMetaElement("1234W    ", AspectRatioType, 0UL, null, new int[] { Video.Id }, "Specify the possible modifications to the aspect ratio (0: free resizing, 1: keep aspect ratio, 2: fixed).");
             yield return new MatroskaDocMetaElement("1234     ", ColourSpace, null, null, new int[] { Video.Id }, "Same value as in AVI (32 bits).");
@@ -326,7 +326,7 @@ namespace BXmlLib.DocTypes.Matroska {
             yield return new MatroskaDocMetaElement("1234W    ", Audio, null, null, new int[] { TrackEntry.Id }, "Audio settings.");
             yield return new MatroskaDocMetaElement("1234 Ma  ", SamplingFrequency, null, null, new int[] { ChapterAtom.Id }, "A unique string ID to identify the Chapter. Use for WebVTT cue identifier storage.");
             yield return new MatroskaDocMetaElement("1234WMa  ", OutputSamplingFrequency, 8000.0f, greaterNull, new int[] { Audio.Id }, "Sampling frequency in Hz.");
-            yield return new MatroskaDocMetaElement("1234W    ", Channels, "&SamplingFrequency", greaterNull, new int[] { Audio.Id }, "Real output sampling frequency in Hz (used for SBR techniques).");
+            yield return new MatroskaDocMetaElement("1234W    ", Channels, SamplingFrequency, greaterNull, new int[] { Audio.Id }, "Real output sampling frequency in Hz (used for SBR techniques).");
             yield return new MatroskaDocMetaElement("1234WMa  ", ChannelPositions, 1UL, notNull, new int[] { Audio.Id }, "Numbers of channels in the track.");
             yield return new MatroskaDocMetaElement("         ", BitDepth, null, null, new int[] { Audio.Id }, "Table of horizontal angles for each successive channel, see appendix.");
             yield return new MatroskaDocMetaElement("1234W    ", TrackOperation, null, notNull, new int[] { Audio.Id }, "Bits per sample, mostly used for PCM.");

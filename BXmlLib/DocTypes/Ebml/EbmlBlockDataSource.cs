@@ -12,18 +12,7 @@ namespace BXmlLib.DocTypes.Ebml {
 
     }
 
-    public abstract class EbmlBlockDataSource : IBXmlDataSource {
-        protected abstract ReadOnlySpan<byte> Data(int minLength);
-        protected abstract void Advance(int length);
-        public abstract long Position { get; set; }
-
-        public bool IsEndOfStream { get; protected set; }
-
-        public EbmlBlockDataSource() : this(~BXmlElementHeader.UnknownLength) { }
-        public EbmlBlockDataSource(long length) {
-            //Length = length;
-        }
-
+    public abstract class EbmlBlockDataSource : BXmlDataBlockSource {
         private static long ReadVInt(ReadOnlySpan<byte> data, int maxLength, out int vintLength) {
             if(data.Length == 0) {
                 vintLength = -1;
@@ -45,7 +34,7 @@ namespace BXmlLib.DocTypes.Ebml {
             return value == VIntConsts.VIntReserved[bytesToRead] ? ~BXmlElementHeader.UnknownLength : value;
         }
 
-        public ReadOnlySpan<byte> ReadIdentifier(ref BXmlElementHeader header) {
+        public override ReadOnlySpan<byte> ReadIdentifier(ref BXmlElementHeader header) {
             if(IsEndOfStream) {
                 header.Mutate(
                     ~BXmlElementHeader.UnexpectedEndOfStreamError, 
@@ -55,7 +44,7 @@ namespace BXmlLib.DocTypes.Ebml {
                 return ReadOnlySpan<byte>.Empty;
             }
 
-            var data = Data(4 + 8);
+            var data = GetDataBlock(4 + 8);
 
             var headerPos = Position;
             int identLength = VIntConsts.VIntLength[data[0]];
@@ -87,35 +76,5 @@ namespace BXmlLib.DocTypes.Ebml {
             header.Mutate(headerPos, dataPos, dataLength);
             return encodedIdent;
         }
-
-        public ReadOnlySpan<byte> ReadData(int length) {
-            var data = Data(length);
-
-            if(length <= data.Length) {
-                Advance(length);
-                return data.Slice(0, length);
-            }
-
-            var toRead = length;
-            var toAdvance = data.Length;
-
-            Span<byte> returnData = new byte[length];
-            while(!IsEndOfStream && toRead != 0) {
-                data.CopyTo(returnData.Slice(length - toRead));
-                CommitPosition();
-
-                Advance(toAdvance);
-                toRead -= toAdvance;
-
-                data = Data(toRead);
-                toAdvance = Math.Min(toRead, data.Length);
-            }
-            Advance(toAdvance);
-
-            CommitPosition();
-            return returnData;
-        }
-
-        public abstract void CommitPosition();
     }
 }

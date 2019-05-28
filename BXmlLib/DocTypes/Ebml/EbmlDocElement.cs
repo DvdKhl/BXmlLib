@@ -16,5 +16,8 @@ namespace BXmlLib.DocTypes.Ebml {
 		public static EbmlDocElement Unknown { get; } = new EbmlDocElement(-1, EbmlElementType.Unknown, "Unknown");
 
         public override string ToString() => $"(Id={Id:X} Name={Name} Type={Type})";
+
+        public override string IdentifierString => Id.ToString("X");
+        public override string TypeString => Type.ToString();
     }
 }
