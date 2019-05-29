@@ -12,6 +12,8 @@ namespace BXmlLib.DocTypes.MP4 {
 			return "" + (char)key[0] + (char)key[1] + (char)key[2] + (char)key[3];
 		}
 
+		public static readonly DateTime DateOffset = new DateTime(1904, 1, 1);
+
 		#region DocTypes
 		public static readonly MP4DocElement Root = new MP4DocElement("<ROOT>", true, nameof(Root));
 		public static readonly MP4DocElement Any = new MP4DocElement("<ANY>", true, nameof(Any));
