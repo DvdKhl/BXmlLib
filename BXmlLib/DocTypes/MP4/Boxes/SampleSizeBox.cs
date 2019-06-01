@@ -2,7 +2,7 @@
 using System.Buffers.Binary;
 
 namespace BXmlLib.DocTypes.MP4.Boxes {
-	public ref struct SampleSizeBox {
+	public readonly ref struct SampleSizeBox {
 		private readonly ReadOnlySpan<byte> data;
 		public SampleSizeBox(ReadOnlySpan<byte> data) {
 			this.data = data;
@@ -15,7 +15,7 @@ namespace BXmlLib.DocTypes.MP4.Boxes {
 		public uint SampleCount => BinaryPrimitives.ReadUInt32BigEndian(data.Slice(8));
 		public ReadOnlySpan<uint> Samples {
 			get {
-				var samples = new uint[SampleSize == 0 ? 0 : SampleCount];
+				var samples = new uint[SampleSize != 0 ? 0 : SampleCount];
 
 				for (int i = 0; i < samples.Length; i++) {
 					samples[i] = BinaryPrimitives.ReadUInt32BigEndian(data.Slice(i * 4 + 12, 4));

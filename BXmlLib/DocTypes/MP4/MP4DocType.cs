@@ -30,7 +30,6 @@ namespace BXmlLib.DocTypes.MP4 {
 		public static readonly MP4DocElement EditList = new MP4DocElement("elst", false, nameof(EditList)); //
 		public static readonly MP4DocElement Media = new MP4DocElement("mdia", true, nameof(Media)); // *
 		public static readonly MP4DocElement MediaHeader = new MP4DocElement("mdhd", false, nameof(MediaHeader)); // *
-		public static readonly MP4DocElement HandlerReference = new MP4DocElement("hdlr", false, nameof(HandlerReference)); // *
 		public static readonly MP4DocElement MediaInformation = new MP4DocElement("minf", true, nameof(MediaInformation)); // *
 		public static readonly MP4DocElement VideoMediaHeader = new MP4DocElement("vmhd", false, nameof(VideoMediaHeader)); //
 		public static readonly MP4DocElement SoundMediaHeader = new MP4DocElement("smhd", false, nameof(SoundMediaHeader)); //

@@ -3,7 +3,7 @@ using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 
 namespace BXmlLib.DocTypes.MP4.Boxes {
-	public ref struct TrackHeaderBox {
+	public readonly ref struct TrackHeaderBox {
 		private readonly ReadOnlySpan<byte> data;
 		public TrackHeaderBox(ReadOnlySpan<byte> data) {
 			this.data = data;

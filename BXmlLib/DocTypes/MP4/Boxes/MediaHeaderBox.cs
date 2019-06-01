@@ -2,7 +2,7 @@
 using System.Buffers.Binary;
 
 namespace BXmlLib.DocTypes.MP4.Boxes {
-	public ref struct MediaHeaderBox {
+	public readonly ref struct MediaHeaderBox {
 		private readonly ReadOnlySpan<byte> data;
 		public MediaHeaderBox(ReadOnlySpan<byte> data) {
 			this.data = data;

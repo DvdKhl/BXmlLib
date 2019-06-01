@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 namespace BXmlLib.DocTypes.MP4.Boxes {
-	public ref struct FileTypeBox {
+	public readonly ref struct FileTypeBox {
 		private ReadOnlySpan<byte> Data { get; }
 
 		public int MajorBrands => BinaryPrimitives.ReadInt32BigEndian(Data) ;

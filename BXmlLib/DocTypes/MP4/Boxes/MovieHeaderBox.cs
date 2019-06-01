@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace BXmlLib.DocTypes.MP4.Boxes {
-	public ref struct MovieHeaderBox {
+	public readonly ref struct MovieHeaderBox {
 		private readonly ReadOnlySpan<byte> data;
 		public MovieHeaderBox(ReadOnlySpan<byte> data) {
 			this.data = data;

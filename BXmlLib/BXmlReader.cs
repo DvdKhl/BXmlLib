@@ -91,7 +91,7 @@ namespace BXmlLib {
 
 
             pos.DocElement = DocType.GetDocElement(encodedIdentifier, ref header, positions);
-            pos.NextElementPos = header.DataLength < 0 ? -1 : header.DataOffset + header.DataLength;
+            pos.NextElementPos = header.DataLength < 0 ? ~BXmlElementHeader.UnknownLength : header.DataOffset + header.DataLength;
 
             //Trace.WriteLine(elemInfo.ToDetailedString());
             return true;
