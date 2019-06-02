@@ -23,6 +23,6 @@ namespace BXmlLib.DocTypes.MP4.Boxes {
 		public ushort FrameCount => BinaryPrimitives.ReadUInt16BigEndian(data.Slice(44));
 		public ReadOnlySpan<byte> CompressorName => data.Slice(46, 32);
 		public ushort Depth => BinaryPrimitives.ReadUInt16BigEndian(data.Slice(78));
-		public ushort PreDefined2 => BinaryPrimitives.ReadUInt16BigEndian(data.Slice(80));
+		public ushort Predefined3 => BinaryPrimitives.ReadUInt16BigEndian(data.Slice(80));
 	}
 }

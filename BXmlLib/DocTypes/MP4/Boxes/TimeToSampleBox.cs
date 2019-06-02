@@ -2,15 +2,15 @@
 using System.Buffers.Binary;
 
 namespace BXmlLib.DocTypes.MP4.Boxes {
-	public readonly ref struct CompositionOffsetBox {
+	public readonly ref struct TimeToSampleBox {
 		public struct SampleItem {
 			public uint Count { get; internal set; }
-			public uint Offset { get; internal set; }
+			public uint Delta { get; internal set; }
 		}
 
 
 		private readonly ReadOnlySpan<byte> data;
-		public CompositionOffsetBox(ReadOnlySpan<byte> data) {
+		public TimeToSampleBox(ReadOnlySpan<byte> data) {
 			this.data = data;
 		}
 
@@ -25,7 +25,7 @@ namespace BXmlLib.DocTypes.MP4.Boxes {
 				for (int i = 0; i < samples.Length; i++) {
 					samples[i] = new SampleItem {
 						Count = BinaryPrimitives.ReadUInt32BigEndian(data.Slice(i * 8 + 8, 4)),
-						Offset = BinaryPrimitives.ReadUInt32BigEndian(data.Slice(i * 8 + 12, 4)),
+						Delta = BinaryPrimitives.ReadUInt32BigEndian(data.Slice(i * 8 + 12, 4)),
 					};
 				}
 

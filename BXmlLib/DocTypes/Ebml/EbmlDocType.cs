@@ -1,6 +1,7 @@
 ﻿using BXmlLib.DataSource;
 using BXmlLib.DocType;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -76,9 +77,9 @@ namespace BXmlLib.DocTypes.Ebml {
             int ident;
             switch(encodedIdentifier.Length) {
                 case 1: ident = encodedIdentifier[0]; break;
-                case 2: ident = encodedIdentifier[0] << 8 | encodedIdentifier[1]; break;
+                case 2: ident = BinaryPrimitives.ReadInt16BigEndian(encodedIdentifier); break;
                 case 3: ident = encodedIdentifier[0] << 16 | encodedIdentifier[1] << 8 | encodedIdentifier[2]; break;
-                case 4: ident = encodedIdentifier[0] << 24 | encodedIdentifier[1] << 16 | encodedIdentifier[2] << 8 | encodedIdentifier[3]; break;
+                case 4: ident = BinaryPrimitives.ReadInt32BigEndian(encodedIdentifier); break;
                 default: throw new Exception($"Invalid identifier length ({encodedIdentifier.Length})");
             }
 

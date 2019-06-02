@@ -58,10 +58,10 @@ namespace BXmlLib.DocTypes.Matroska {
         public ReadOnlySpan<byte> Data { get; }
 
         public enum BlockFlag : byte {
-            Discardable = 0x01,
-            LaceMask = 0x06,
-            Invisible = 0x08,
-            Keyframe = 0x80
+            Discardable = 0b00000001,
+            LaceMask =    0b00000110,
+            Invisible =   0b00001000,
+            Keyframe =    0b10000000
         }
         public enum LaceType : byte {
             None = 0x00,
